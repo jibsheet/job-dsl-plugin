@@ -387,14 +387,18 @@ class WrapperContext extends AbstractExtensibleContext {
      * Sets the display name of a build.
      *
      * @param nameTemplate template defining the build name
+     * @param setNameAtStart should name be set when the build starts
+     * @param setNameAtEnd should name be set after the build ends
      * @since 1.24
      */
     @RequiresPlugin(id = 'build-name-setter')
-    void buildName(String nameTemplate) {
+    void buildName(String nameTemplate, boolean setNameAtStart = true, boolean setNameAtEnd = true) {
         Preconditions.checkNotNull(nameTemplate, 'Name template must not be null')
 
         wrapperNodes << new NodeBuilder().'org.jenkinsci.plugins.buildnamesetter.BuildNameSetter' {
             template nameTemplate
+            runAtStart setNameAtStart
+            runAtEnd setNameAtEnd
         }
     }
 
